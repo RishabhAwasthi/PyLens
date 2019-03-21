@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     fileUri = getOutputMediaFileUri();
                     intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, fileUri);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivityForResult(intent, REQUEST_CAMERA);
                 } else if (items[item].equals("Choose from Library")) {
                     intent = new Intent();
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Uri getOutputMediaFileUri() {
-        return Uri.fromFile(getOutputMediaFile());
+        return FileProvider.getUriForFile(getBaseContext(), getBaseContext().getApplicationContext().getPackageName()+".provider",getOutputMediaFile());
     }
 
     private static File getOutputMediaFile() {
