@@ -1,4 +1,4 @@
-package com.dedykuncoro.pyLens;
+package com.majorProject.pyLens;
 
 import org.junit.Test;
 

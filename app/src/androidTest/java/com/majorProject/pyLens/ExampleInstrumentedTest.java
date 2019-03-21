@@ -1,4 +1,4 @@
-package com.dedykuncoro.pyLens;
+package com.majorProject.pyLens;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

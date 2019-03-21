@@ -1,4 +1,4 @@
-package com.dedykuncoro.pyLens.helper;
+package com.majorProject.pyLens.helper;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,7 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.dedykuncoro.pyLens.R;
+import com.majorProject.pyLens.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
