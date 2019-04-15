@@ -2,6 +2,7 @@ package com.majorProject.pyLens;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     Intent intent;
     Uri fileUri;
-    Button btn_choose_image,classify_butn;
+    Button btn_choose_image,classify_butn,show_info;
     TextView display_result;
     ImageView imageView;
     Bitmap bitmap, decoded;
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar=findViewById(R.id.progress);
         progressBar.setVisibility(View.INVISIBLE);
         display_result=findViewById(R.id.result);
+        show_info=findViewById(R.id.info);
 
         btn_choose_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,"https://pylens.appspot.com/predict",jsonObject ,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(final JSONObject response) {
 
                         Log.d("TAG1", response.toString());
                         try{
@@ -240,13 +243,29 @@ public class MainActivity extends AppCompatActivity {
                             progressBar.setVisibility(View.INVISIBLE);
                             display_result.setVisibility(View.VISIBLE);
                             display_result.setText(response.getString("msg"));
-                            Toast.makeText(getApplicationContext(),response.getString("msg"),Toast.LENGTH_SHORT).show();}catch (Exception e){}
+                            show_info.setVisibility(View.VISIBLE);
+                            show_info.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                                    try {
+                                        intent.putExtra(SearchManager.QUERY, "is "+response.getString("msg")+" edible?");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    startActivity(intent);
+                                }
+                            });
+                        //    Toast.makeText(getApplicationContext(),response.getString("msg"),Toast.LENGTH_SHORT).show();
+                        }catch (Exception e){}
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("TAG", error.getMessage(), error);
+                progressBar.setVisibility(View.INVISIBLE);
+                show_info.setVisibility(View.INVISIBLE);
             }
         }){ //no semicolon or coma
             @Override
