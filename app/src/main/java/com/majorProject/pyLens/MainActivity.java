@@ -44,10 +44,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-/**
- * Created by Kuncoro on 25/09/2017.
- * www.dedykuncoro.com
- */
+
 
 public class MainActivity extends AppCompatActivity {
 
